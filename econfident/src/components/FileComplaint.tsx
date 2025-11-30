@@ -18,13 +18,16 @@ function FileComplaint() {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/complaints", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "https://econfidentapi.mateusz-zdr.dev/api/complaints",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         alert("Błąd podczas wysyłania zgłoszenia");

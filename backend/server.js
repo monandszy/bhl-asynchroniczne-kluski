@@ -5,11 +5,10 @@ const mysql = require("mysql2");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// MySQL/MariaDB connection
+// st000000000pid shit
 const db = mysql.createConnection({
   host: "192.168.1.200",
   user: "admin",
@@ -17,7 +16,6 @@ const db = mysql.createConnection({
   database: "econfident",
 });
 
-// Connect to database
 db.connect((err) => {
   if (err) {
     console.error("Error connecting to database:", err);
@@ -26,13 +24,12 @@ db.connect((err) => {
   console.log("Connected to MariaDB database");
 });
 
-// POST endpoint example
+// endpoint for creating complaints
 app.post("/api/complaints", (req, res) => {
   const { title, descr, info, cats } = req.body;
 
   console.log("Received data:", { title, descr, info, cats });
 
-  // First, let's check if the table structure needs to be updated
   const query =
     "INSERT INTO reports (title, descr, info, cats) VALUES (?, ?, ?, ?)";
 
@@ -41,7 +38,6 @@ app.post("/api/complaints", (req, res) => {
       console.error("Error inserting data:", err);
       console.error("Error details:", err.sqlMessage);
 
-      // If cats column is integer, we need to alter it
       if (
         err.code === "ER_TRUNCATED_WRONG_VALUE_FOR_FIELD" &&
         err.sqlMessage.includes("cats")
@@ -64,7 +60,7 @@ app.post("/api/complaints", (req, res) => {
   });
 });
 
-// GET endpoint with pagination
+// endpoint to get complaints
 app.get("/api/complaints", (req, res) => {
   const offset = parseInt(req.query.offset) || 0;
   const limit = parseInt(req.query.limit) || 10;
@@ -110,7 +106,7 @@ app.post("/api/login", (req, res) => {
   });
 });
 
-// DELETE endpoint for complaints
+// endpoint for deleting complaints
 app.delete("/api/complaints", (req, res) => {
   const { ids } = req.body;
 
@@ -137,7 +133,7 @@ app.delete("/api/complaints", (req, res) => {
   });
 });
 
-// GET endpoint for users
+//  endpoint for getting users
 app.get("/api/users", (req, res) => {
   console.log("Fetching all users");
 
@@ -149,7 +145,6 @@ app.get("/api/users", (req, res) => {
       return res.status(500).json({ error: "Database error" });
     }
 
-    // Convert admin column to boolean
     const users = results.map((user) => ({
       id: user.id,
       login: user.login,
@@ -160,7 +155,7 @@ app.get("/api/users", (req, res) => {
   });
 });
 
-// POST endpoint for creating users
+// endpoint for creating users
 app.post("/api/users", (req, res) => {
   const { login, password, admin } = req.body;
 
@@ -170,7 +165,6 @@ app.post("/api/users", (req, res) => {
 
   console.log("Creating user:", { login, admin });
 
-  // Check if user already exists
   const checkQuery = "SELECT id FROM users WHERE login = ?";
 
   db.query(checkQuery, [login], (err, results) => {
@@ -183,7 +177,6 @@ app.post("/api/users", (req, res) => {
       return res.status(409).json({ error: "User already exists" });
     }
 
-    // Insert new user
     const insertQuery =
       "INSERT INTO users (login, pass, admin) VALUES (?, ?, ?)";
     const adminValue = admin ? 1 : 0;
@@ -203,7 +196,7 @@ app.post("/api/users", (req, res) => {
   });
 });
 
-// DELETE endpoint for users
+//  endpoint for deleting users
 app.delete("/api/users/:id", (req, res) => {
   const userId = parseInt(req.params.id);
 
@@ -232,7 +225,7 @@ app.delete("/api/users/:id", (req, res) => {
   });
 });
 
-// PUT endpoint for admin response to complaints
+// endpoint for admin response to complaints
 app.put("/api/complaints/:id/response", (req, res) => {
   const complaintId = parseInt(req.params.id);
   const { admin_response } = req.body;
@@ -266,7 +259,6 @@ app.put("/api/complaints/:id/response", (req, res) => {
   });
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

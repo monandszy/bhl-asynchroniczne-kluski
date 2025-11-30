@@ -45,7 +45,7 @@ function AdminPanel() {
     try {
       setLoading(true);
       const response = await fetch(
-        "http://localhost:3000/api/complaints?limit=100"
+        "https://econfidentapi.mateusz-zdr.dev/api/complaints?limit=100"
       );
       if (response.ok) {
         const data = await response.json();
@@ -61,7 +61,9 @@ function AdminPanel() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3000/api/users");
+      const response = await fetch(
+        "https://econfidentapi.mateusz-zdr.dev/api/users"
+      );
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
@@ -80,13 +82,16 @@ function AdminPanel() {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      });
+      const response = await fetch(
+        "https://econfidentapi.mateusz-zdr.dev/api/users",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        }
+      );
 
       if (response.ok) {
         alert("Użytkownik został dodany");
@@ -109,7 +114,7 @@ function AdminPanel() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/users/${userId}`,
+        `https://econfidentapi.mateusz-zdr.dev/api/users/${userId}`,
         {
           method: "DELETE",
         }
@@ -135,7 +140,7 @@ function AdminPanel() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/complaints/${complaintId}/response`,
+        `https://econfidentapi.mateusz-zdr.dev/api/complaints/${complaintId}/response`,
         {
           method: "PUT",
           headers: {
@@ -189,13 +194,16 @@ function AdminPanel() {
 
     setDeleting(true);
     try {
-      const response = await fetch("http://localhost:3000/api/complaints", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ids: Array.from(selectedIds) }),
-      });
+      const response = await fetch(
+        "https://econfidentapi.mateusz-zdr.dev/api/complaints",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ids: Array.from(selectedIds) }),
+        }
+      );
 
       if (response.ok) {
         alert("Zgłoszenia zostały usunięte");

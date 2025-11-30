@@ -16,13 +16,16 @@ function Login({ onLogin }: LoginProps) {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ login, password }),
-      });
+      const response = await fetch(
+        "https://econfidentapi.mateusz-zdr.dev/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ login, password }),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();

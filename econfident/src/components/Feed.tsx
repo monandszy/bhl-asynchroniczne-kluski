@@ -42,7 +42,7 @@ function Feed() {
       isFetching.current = true;
       setLoading(true);
       const response = await fetch(
-        `http://localhost:3000/api/complaints?offset=${offset}&limit=10`
+        `https://econfidentapi.mateusz-zdr.dev/api/complaints?offset=${offset}&limit=10`
       );
       if (!response.ok) {
         throw new Error("Nie udało się pobrać zgłoszeń");
